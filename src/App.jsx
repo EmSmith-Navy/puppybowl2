@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
-import PuppyDetails from "./features/puppies/PuppyDetails";
-import PuppyList from "./features/puppies/PuppyList";
+import PuppyList from './features/puppies/PuppyList';
+import PuppyDetails from './features/puppies/PuppyDetails';
 import PuppyForm from "./features/puppies/PuppyForm";
 
 import "./App.scss";

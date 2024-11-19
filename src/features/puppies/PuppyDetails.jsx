@@ -1,50 +1,45 @@
-/**
- * @component
- * Shows comprehensive information about the selected puppy, if there is one.
- * Also provides a button for users to remove the selected puppy from the roster.
- */
-export default function PuppyDetails({ selectedPuppyId, setSelectedPuppyId }) {
-  // TODO: Grab data from the `getPuppy` query
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-  // TODO: Use the `deletePuppy` mutation to remove a puppy when the button is clicked
+const COHORT_CODE = "REPLACE_WITH_CODE";
+const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${COHORT_CODE}/`;
 
-  function removePuppy(id) {
-    setSelectedPuppyId();
-  }
+const api = createApi({
+    reducerPath: 'api',
+    baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+    tagTypes: ['Puppy'],
+    endpoints: (builder) => ({
+        getPuppies: builder.query({
+            query: () => 'puppies',
+            providesTags: ['Puppy'],
+        }),
+        getPuppy: builder.query({
+            query: (puppyId) => `puppies/${puppyId}`,
+            providesTags: ['Puppy'],
+        }),
+        addPuppy: builder.mutation({
+            query: (newPuppy) => ({
+                url: 'puppies',
+                method: 'POST',
+                body: newPuppy,
+            }),
+            invalidatesTags: ['Puppy'],
+        }),
+        deletePuppy: builder.mutation({
+            query: (puppyId) => ({
+                url: `puppies/${puppyId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Puppy'],
+        }),
+    }),
+});
 
-  // There are 3 possibilities:
-  let $details;
-  // 1. A puppy has not yet been selected.
-  if (!selectedPuppyId) {
-    $details = <p>Please select a puppy to see more details.</p>;
-  }
-  //  2. A puppy has been selected, but results have not yet returned from the API.
-  else if (isLoading) {
-    $details = <p>Loading puppy information...</p>;
-  }
-  // 3. Information about the selected puppy has returned from the API.
-  else {
-    $details = (
-      <>
-        <h3>
-          {puppy.name} #{puppy.id}
-        </h3>
-        <p>{puppy.breed}</p>
-        <p>Team {puppy.team?.name ?? "Unassigned"}</p>
-        <button onClick={() => removePuppy(puppy.id)}>
-          Remove from roster
-        </button>
-        <figure>
-          <img src={puppy.imageUrl} alt={puppy.name} />
-        </figure>
-      </>
-    );
-  }
+// Export hooks for usage in functional components
+export const {
+    useGetPuppiesQuery,
+    useGetPuppyQuery,
+    useAddPuppyMutation,
+    useDeletePuppyMutation,
+} = api;
 
-  return (
-    <aside>
-      <h2>Selected Puppy</h2>
-      {$details}
-    </aside>
-  );
-}
+export default api;

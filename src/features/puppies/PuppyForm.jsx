@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAddPuppyMutation } from "../../store/api";
 
 /**
  * @component
@@ -7,15 +8,22 @@ import { useState } from "react";
 export default function PuppyForm() {
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
+  const [addPuppy, { isLoading, error }] = useAddPuppyMutation();
 
-  // TODO: Use the `addPuppy` mutation to add a puppy when the form is submitted
-
-  function postPuppy(event) {
+  const postPuppy = async (event) => {
     event.preventDefault();
 
     // Placeholder image w/ random photos of dogs
     const imageUrl = "https://loremflickr.com/200/300/dog";
-  }
+
+    try {
+      await addPuppy({ name, breed, imageUrl }).unwrap();
+      setName("");
+      setBreed("");
+    } catch (err) {
+      console.error("Failed to add the puppy: ", err);
+    }
+  };
 
   return (
     <>
@@ -27,6 +35,7 @@ export default function PuppyForm() {
             name="puppyName"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </label>
         <label>
@@ -35,11 +44,14 @@ export default function PuppyForm() {
             name="breed"
             value={breed}
             onChange={(e) => setBreed(e.target.value)}
+            required
           />
         </label>
-        <button>Add to Roster</button>
+        <button type="submit" disabled={isLoading}>
+          Add to Roster
+        </button>
         {isLoading && <output>Uploading puppy information...</output>}
-        {error && <output>{error.message}</output>}
+        {error && <output>Error: {error.message}</output>}
       </form>
     </>
   );
