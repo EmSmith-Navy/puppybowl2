@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 
 import PuppyList from './features/puppies/PuppyList';
-import PuppyDetails from './features/puppies/PuppyDetails';
+import { PuppyDetails } from './features/puppies/PuppyDetails';
 import PuppyForm from "./features/puppies/PuppyForm";
 
 import "./App.scss";
@@ -16,7 +16,7 @@ import "./App.scss";
  * see more details about a specific player, and remove a player from the roster.
  */
 export default function App() {
-  const [selectedPuppyId, setSelectedPuppyId] = useState();
+  const [selectedPuppyId, setSelectedPuppyId] = useState(null);
 
   return (
     <Provider store={store}>
@@ -24,11 +24,11 @@ export default function App() {
       <PuppyForm />
       <main>
         <PuppyList setSelectedPuppyId={setSelectedPuppyId} />
-        <PuppyDetails
-          selectedPuppyId={selectedPuppyId}
-          setSelectedPuppyId={setSelectedPuppyId}
-        />
       </main>
+      <PuppyDetails
+        selectedPuppyId={selectedPuppyId}
+        setSelectedPuppyId={setSelectedPuppyId}
+      />
     </Provider>
   );
 }

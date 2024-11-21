@@ -1,45 +1,22 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const COHORT_CODE = "REPLACE_WITH_CODE";
-const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${COHORT_CODE}/`;
-
+// Define a service using a base URL and expected endpoints
 const api = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-    tagTypes: ['Puppy'],
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://your-api-url.com/api' }), // Replace with your API base URL
     endpoints: (builder) => ({
         getPuppies: builder.query({
-            query: () => 'puppies',
-            providesTags: ['Puppy'],
+            query: () => 'puppies', // Adjust the endpoint as needed
         }),
         getPuppy: builder.query({
-            query: (puppyId) => `puppies/${puppyId}`,
-            providesTags: ['Puppy'],
+            query: (id) => `puppies/${id}`, // Fetch a specific puppy by ID
         }),
-        addPuppy: builder.mutation({
-            query: (newPuppy) => ({
-                url: 'puppies',
-                method: 'POST',
-                body: newPuppy,
-            }),
-            invalidatesTags: ['Puppy'],
-        }),
-        deletePuppy: builder.mutation({
-            query: (puppyId) => ({
-                url: `puppies/${puppyId}`,
-                method: 'DELETE',
-            }),
-            invalidatesTags: ['Puppy'],
-        }),
+        // Add more endpoints as needed
     }),
 });
 
 // Export hooks for usage in functional components
-export const {
-    useGetPuppiesQuery,
-    useGetPuppyQuery,
-    useAddPuppyMutation,
-    useDeletePuppyMutation,
-} = api;
+export const { useGetPuppiesQuery, useGetPuppyQuery } = api;
 
-export default api;
+// Export the API slice reducer
+export default api.reducer;
