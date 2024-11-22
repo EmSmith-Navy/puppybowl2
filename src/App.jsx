@@ -1,13 +1,11 @@
-import { useState } from "react";
-
-import { Provider } from "react-redux";
-import store from "./store/store";
-
+import React, { useState } from 'react';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import PuppyList from './features/puppies/PuppyList';
 import { PuppyDetails } from './features/puppies/PuppyDetails';
-import PuppyForm from "./features/puppies/PuppyForm";
+import PuppyForm from './features/puppies/PuppyForm';
 
-import "./App.scss";
+import './App.scss';
 
 /**
  * @component

@@ -1,13 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import apiReducer from "./api"; // Import the API slice reducer
-import { api } from "./api"; // Import the API slice
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { useAddPuppyMutation } from "../features/puppies/puppySlice";
 
-const store = configureStore({
-  reducer: {
-    [api.reducerPath]: apiReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware), // Add the API middleware
+const api = createApi({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://your-api-url.com" }),
+  endpoints: (builder) => ({
+    getPuppies: builder.query({
+      query: () => "/puppies",
+    }),
+  }),
 });
 
-export default store;
+// Export the auto-generated hook for the `getPuppies` query
+export const { useGetPuppiesQuery } = api;
+
+// Export the API reducer
+export default api.reducer;
