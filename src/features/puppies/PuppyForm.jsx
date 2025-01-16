@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAddPuppyMutation } from "../../store/api";
+import { useAddPuppyMutation } from "./puppySlice";
 
 /**
  * @component
@@ -56,4 +56,3 @@ export default function PuppyForm() {
     </>
   );
 }
-

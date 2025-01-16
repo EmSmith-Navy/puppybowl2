@@ -1,6 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import api from "../api/puppyBowlApi"; 
-import api from "./api";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+const api = createApi({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://your-api-url.com" }),
+  endpoints: (builder) => ({
+    getPuppies: builder.query({
+      query: () => "/puppies",
+    }),
+  }),
+});
+
+// Export the auto-generated hook for the `getPuppies` query
+export const { useGetPuppiesQuery } = api;
 
 // Configure the store
 const store = configureStore({

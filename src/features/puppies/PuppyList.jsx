@@ -1,4 +1,4 @@
-import { useGetPuppiesQuery } from "../../store/api";
+import { useGetPuppiesQuery } from "./puppySlice";
 
 /**
  * @component

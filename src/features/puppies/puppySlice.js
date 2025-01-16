@@ -1,57 +1,38 @@
 import api from "../../store/api";
 
-/*
-TODO: Define the following 4 endpoints:
-  1. getPuppies (query)
-  2. getPuppy (query)
-  3. addPuppy (mutation)
-  4. deletePuppy (mutation)
-
-The query endpoints should provide the "Puppy" tag.
-The mutation endpoints should invalidate the "Puppy" tag.
-*/
-
+// Define the endpoints
 const puppyApi = api.injectEndpoints({
   endpoints: (build) => ({
     getPuppies: build.query({
-      query: () => 'puppies', // Endpoint to fetch all puppies
-      providesTags: ['Puppy'], // Tag for caching
-      // Optional: transformResponse can be added here
-      // transformResponse: (response) => { ... },
+      query: () => "puppies", // Endpoint to fetch all puppies
+      providesTags: ["Puppy"], // Tag for caching
     }),
     getPuppy: build.query({
       query: (puppyId) => `puppies/${puppyId}`, // Endpoint to fetch a single puppy by ID
-      providesTags: ['Puppy'], // Tag for caching
-      // Optional: transformResponse can be added here
-      // transformResponse: (response) => { ... },
+      providesTags: ["Puppy"], // Tag for caching
     }),
     addPuppy: build.mutation({
       query: (newPuppy) => ({
-        url: 'puppies',
-        method: 'POST',
+        url: "puppies",
+        method: "POST",
         body: newPuppy, // New puppy data to be added
       }),
-      invalidatesTags: ['Puppy'], // Invalidate the "Puppy" tag after adding
-      // Optional: transformResponse can be added here
-      // transformResponse: (response) => { ... },
+      invalidatesTags: ["Puppy"], // Invalidate the "Puppy" tag
     }),
     deletePuppy: build.mutation({
       query: (puppyId) => ({
         url: `puppies/${puppyId}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Puppy'], // Invalidate the "Puppy" tag after deletion
-      // Optional: transformResponse can be added here
-      // transformResponse: (response) => { ... },
+      invalidatesTags: ["Puppy"], // Invalidate the "Puppy" tag
     }),
   }),
 });
 
+// Export hooks for the defined endpoints
 export const {
   useGetPuppiesQuery,
   useGetPuppyQuery,
   useAddPuppyMutation,
   useDeletePuppyMutation,
 } = puppyApi;
-
-export default puppyApi;

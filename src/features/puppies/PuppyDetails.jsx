@@ -1,22 +1,28 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// src/features/puppies/PuppyDetails.jsx
 
-// Define a service using a base URL and expected endpoints
-const api = createApi({
-    reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://your-api-url.com/api' }), // Replace with your API base URL
-    endpoints: (builder) => ({
-        getPuppies: builder.query({
-            query: () => 'puppies', // Adjust the endpoint as needed
-        }),
-        getPuppy: builder.query({
-            query: (id) => `puppies/${id}`, // Fetch a specific puppy by ID
-        }),
-        // Add more endpoints as needed
-    }),
-});
+// import React from 'react';
+import PropTypes from 'prop-types';
 
-// Export hooks for usage in functional components
-export const { useGetPuppiesQuery, useGetPuppyQuery } = api;
+export const PuppyDetails = ({ selectedPuppyId }) => {
+  // Component implementation
+  return (
+    <div>
+      {/* Render details of the selected puppy */}
+      {selectedPuppyId ? (
+        <div>
+          <h2>Puppy Details</h2>
+          {/* Details content */}
+        </div>
+      ) : (
+        <p>Select a puppy to see details</p>
+      )}
+    </div>
+  );
+};
 
-// Export the API slice reducer
-export default api.reducer;
+PuppyDetails.propTypes = {
+  selectedPuppyId: PropTypes.number,
+  setSelectedPuppyId: PropTypes.func.isRequired,
+};
+
+export default PuppyDetails;
